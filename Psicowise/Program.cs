@@ -1,23 +1,28 @@
 using System.Net;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.Extensions.Configuration;
 using Psicowise.Configuration;
+using Psicowise.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Carregar configuração do Kestrel
 var kestrelConfig = builder.Configuration.GetSection("Kestrel").Get<KestrelConfiguration>();
 
 builder.WebHost.ConfigureKestrel(options =>
 {
-    var httpEndpoint = kestrelConfig.Endpoints.Http;
-    var httpsEndpoint = kestrelConfig.Endpoints.Https;
-
-    options.ListenAnyIP(httpEndpoint.Port);
-
-    if (httpsEndpoint != null)
+    // Configurar HTTP
+    if (kestrelConfig.Endpoints.Http != null)
     {
-        options.Listen(IPAddress.Any, httpsEndpoint.Port, listenOptions =>
+        options.ListenAnyIP(HelperMethods.GetPortFromUrl(kestrelConfig.Endpoints.Http.Url));
+    }
+
+    // Configurar HTTPS
+    if (kestrelConfig.Endpoints.Https != null)
+    {
+        options.Listen(IPAddress.Any, HelperMethods.GetPortFromUrl(kestrelConfig.Endpoints.Https.Url), listenOptions =>
         {
-            listenOptions.UseHttps(httpsEndpoint.Certificate.Path, httpsEndpoint.Certificate.Password);
+            listenOptions.UseHttps(kestrelConfig.Endpoints.Https.Certificate.Path, kestrelConfig.Endpoints.Https.Certificate.Password);
         });
     }
 });

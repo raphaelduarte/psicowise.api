@@ -14,6 +14,7 @@ public class Endpoints
 public class Endpoint
 {
     public int Port { get; set; }
+    public string Url { get; set; }
     public Certificate Certificate { get; set; }
 }
 
