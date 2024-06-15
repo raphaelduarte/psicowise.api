@@ -18,5 +18,4 @@ FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS final
 WORKDIR /app
 EXPOSE 49990
 COPY --from=publish /app/publish .
-COPY certs/https /app/https/certs
 ENTRYPOINT ["dotnet", "Psicowise.dll"]

@@ -1,6 +1,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Psicowise.Configuration;
 using Psicowise.Helpers;
 
@@ -14,16 +15,27 @@ builder.WebHost.ConfigureKestrel(options =>
     // Configurar HTTP
     if (kestrelConfig.Endpoints.Http != null)
     {
-        options.ListenAnyIP(HelperMethods.GetPortFromUrl(kestrelConfig.Endpoints.Http.Url));
+        options.ListenAnyIP(kestrelConfig.Endpoints.Http.Port);
     }
 
-    // Configurar HTTPS
     if (kestrelConfig.Endpoints.Https != null)
     {
-        options.Listen(IPAddress.Any, HelperMethods.GetPortFromUrl(kestrelConfig.Endpoints.Https.Url), listenOptions =>
+        var certificatePath = kestrelConfig.Endpoints.Https.Certificate.Path;
+        var certificatePassword = kestrelConfig.Endpoints.Https.Certificate.Password;
+
+        // Ajustar o caminho do certificado para o caminho dentro do contêiner, se necessário
+        if (builder.Environment.IsProduction())
         {
-            listenOptions.UseHttps(kestrelConfig.Endpoints.Https.Certificate.Path, kestrelConfig.Endpoints.Https.Certificate.Password);
-        });
+            certificatePath = "/app/certs/https/aspnetapp.pfx";
+        }
+
+        options.Listen(IPAddress.Any, kestrelConfig.Endpoints.Https.Port, listenOptions =>
+            {
+                listenOptions.UseHttps(certificatePath, certificatePassword);
+                Console.WriteLine("Successfully configured HTTPS", certificatePath);
+            });
+        
+        
     }
 });
 

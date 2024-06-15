@@ -4,9 +4,11 @@
     container_name: psicowise.api
     ports:
       - "49990:49990"
+      - "443:443"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:49990
+      - ASPNETCORE_URLS=https://+:443
     volumes:
       - ./Psicowise/appsettings.json:/app/appsettings.json
     build:
