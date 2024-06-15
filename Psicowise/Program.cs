@@ -3,7 +3,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Configure Kestrel to listen on the specified URL
 builder.WebHost.ConfigureKestrel(options =>
 {
-    options.ListenAnyIP(49999); // Porta desejada
+    options.ListenAnyIP(49990); // Porta desejada
 });
 
 // Add services to the container.

@@ -35,7 +35,7 @@
       "publishAllPorts": true,
       "useSSL": false,
       "environmentVariables": {
-        "ASPNETCORE_URLS": "http://*:49152"
+        "ASPNETCORE_URLS": "http://*:49990"
       }
     }
   },

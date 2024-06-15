@@ -3,11 +3,10 @@
     image: psicowise.api:latest
     container_name: psicowise.api
     ports:
-      - "80:80"
-      - "49999:49999"
+      - "49990:49990"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=http://+:49999
+      - ASPNETCORE_URLS=http://+:49990
     volumes:
       - ./Psicowise/appsettings.json:/app/appsettings.json
     build:
