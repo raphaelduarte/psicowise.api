@@ -1,6 +1,16 @@
+using System.Net;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure Kestrel to listen on the specified URL
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(49990);
+    options.Listen(IPAddress.Any, 443, ListenOptions =>
+    {
+        ListenOptions.UseHttps("./Psicowise/Psicowise/certs/aspnetapp.pfx", "Joaquim12@");
+    });
+});
 
 // Add services to the container.
 builder.Services.AddControllers();
