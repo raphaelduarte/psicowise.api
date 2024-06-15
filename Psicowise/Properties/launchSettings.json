@@ -33,7 +33,10 @@
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
       "publishAllPorts": true,
-      "useSSL": false
+      "useSSL": false,
+      "environmentVariables": {
+        "ASPNETCORE_URLS": "http://*:49152"
+      }
     }
   },
   "$schema": "https://json.schemastore.org/launchsettings.json",
