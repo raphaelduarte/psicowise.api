@@ -17,5 +17,5 @@ RUN dotnet publish "Psicowise.csproj" -c Release -o /app/publish /p:UseAppHost=f
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-COPY Psicowise/certs/aspnetapp.pfx /app/certs/aspnetapp.pfx
+COPY Psicowise/certs /app/certs
 ENTRYPOINT ["dotnet", "Psicowise.dll"]
