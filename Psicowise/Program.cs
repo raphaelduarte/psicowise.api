@@ -1,15 +1,25 @@
 using System.Net;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Psicowise.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var kestrelConfig = builder.Configuration.GetSection("Kestrel").Get<KestrelConfiguration>();
+
 builder.WebHost.ConfigureKestrel(options =>
 {
-    options.ListenAnyIP(49990);
-    options.Listen(IPAddress.Any, 443, ListenOptions =>
+    var httpEndpoint = kestrelConfig.Endpoints.Http;
+    var httpsEndpoint = kestrelConfig.Endpoints.Https;
+
+    options.ListenAnyIP(httpEndpoint.Port);
+
+    if (httpsEndpoint != null)
     {
-        ListenOptions.UseHttps("./Psicowise/Psicowise/certs/aspnetapp.pfx", "Joaquim12@");
-    });
+        options.Listen(IPAddress.Any, httpsEndpoint.Port, listenOptions =>
+        {
+            listenOptions.UseHttps(httpsEndpoint.Certificate.Path, httpsEndpoint.Certificate.Password);
+        });
+    }
 });
 
 // Add services to the container.
