@@ -1,10 +1,10 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure Kestrel to listen on the specified URL
-//builder.WebHost.ConfigureKestrel(options =>
-//{
-  //  options.ListenAnyIP(8080); // Listen on port 80 for HTTP
-//});
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(8080); // Listen on port 8080 for HTTP
+});
 
 // Add services to the container.
 

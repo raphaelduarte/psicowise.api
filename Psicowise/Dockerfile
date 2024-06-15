@@ -16,5 +16,6 @@ RUN dotnet publish "Psicowise.csproj" -c Release -o /app/publish /p:UseAppHost=f
 # Stage 3: Create the final image
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS final
 WORKDIR /app
+EXPOSE 8080
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Psicowise.dll"]
