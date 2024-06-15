@@ -6,7 +6,7 @@
       - "8080:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=http://+:8080
+      - ASPNETCORE_URLS=http://+:8081
     build:
       context: .
       dockerfile: Psicowise/Dockerfile
