@@ -3,10 +3,10 @@
     image: psicowise.api:latest
     container_name: psicowise.api
     ports:
-      - "8081:8081"
+      - "49152:49152"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=http://+:8081
+      - ASPNETCORE_URLS=http://+:49152
     build:
       context: .
       dockerfile: Psicowise/Dockerfile
